@@ -29,7 +29,7 @@ public class TaskStart implements ApplicationRunner {
              */
             jobAndTriggerService.addJob("RealTimeDataTask",
                     "com.gad.epidemicmanage.task.RealTimeDataTask",
-                    "default", "0 35 14 * * ? ");
+                    "default", "10 00 09,18 * * ? ");
         }
     }
 }
