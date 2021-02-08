@@ -1,6 +1,6 @@
 package com.gad.epidemicmanage.service;
 
-import com.gad.epidemicmanage.entity.RealTimeData;
+import com.gad.epidemicmanage.pojo.entity.RealTimeData;
 
 public interface IRealTimeDataService {
     /**

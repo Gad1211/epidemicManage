@@ -1,10 +1,8 @@
 package com.gad.epidemicmanage.mapper;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gad.epidemicmanage.pojo.entity.RealTimeData;
+import com.gad.epidemicmanage.pojo.entity.Estate;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface RealTimeDataMapper extends BaseMapper<RealTimeData> {
-
+public interface EstateMapper extends BaseMapper<Estate>{
 }

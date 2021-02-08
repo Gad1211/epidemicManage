@@ -18,4 +18,4 @@ spring:
 # mybatis-plus配置
 mybatis-plus:
   mapper-locations: mapper/*.xml #mapper的xml文件位置
-  type-aliases-package: com.gad.epidemicmanage.entity #实体类位置
+  type-aliases-package: com.gad.epidemicmanage.pojo.entity #实体类位置

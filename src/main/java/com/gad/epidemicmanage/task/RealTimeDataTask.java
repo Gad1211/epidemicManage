@@ -1,7 +1,7 @@
 package com.gad.epidemicmanage.task;
 
 import com.gad.epidemicmanage.common.GlobalConstant;
-import com.gad.epidemicmanage.entity.RealTimeData;
+import com.gad.epidemicmanage.pojo.entity.RealTimeData;
 import com.gad.epidemicmanage.service.IRealTimeDataService;
 import com.gad.epidemicmanage.util.CommonUtil;
 import com.gad.epidemicmanage.util.HttpUnitUtil;
@@ -16,7 +16,6 @@ import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * 获取国内疫情实时数据

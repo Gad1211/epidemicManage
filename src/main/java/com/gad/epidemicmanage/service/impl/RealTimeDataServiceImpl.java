@@ -2,7 +2,7 @@ package com.gad.epidemicmanage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gad.epidemicmanage.entity.RealTimeData;
+import com.gad.epidemicmanage.pojo.entity.RealTimeData;
 import com.gad.epidemicmanage.mapper.RealTimeDataMapper;
 import com.gad.epidemicmanage.service.IRealTimeDataService;
 import org.springframework.stereotype.Service;
