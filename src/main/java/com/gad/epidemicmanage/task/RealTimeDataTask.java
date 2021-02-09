@@ -38,7 +38,6 @@ public class RealTimeDataTask implements Job {
                 log.error("国内实时数据获取页面失败");
                 return;
             }else {
-                System.out.println(html);
                 log.info("国内实时数据获取页面成功，开始第 "+ (i+1) +" 次分析");
             }
 
