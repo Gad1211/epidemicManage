@@ -25,7 +25,7 @@ public class TaskStart implements ApplicationRunner {
         if (context.isActive()) {
 
             /**
-             * 获取实时疫情数据,每天更新一次
+             * 获取实时疫情数据,每天更新两次
              */
             jobAndTriggerService.addJob("RealTimeDataTask",
                     "com.gad.epidemicmanage.task.RealTimeDataTask",
