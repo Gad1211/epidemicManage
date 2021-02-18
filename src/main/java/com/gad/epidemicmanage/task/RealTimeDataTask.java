@@ -43,34 +43,45 @@ public class RealTimeDataTask implements Job {
 
             try{
                 Document document = Jsoup.parse(html);
+                //获取模块节点
+                Element f1 = document.getElementById("ptab-0");
+                Element f2 = f1.child(0);
+                //取地区class标签父节点
+                Element f3 = f2.child(0);
+                //取数字父节点
+                Element f4 = f2.child(2).child(0);
+
+                //获取标签属性值
+                String areaClassName = f3.child(0).attr("class");
+                String numClassName = f4.child(1).attr("class");
 
                 RealTimeData realTimeData = new RealTimeData();
                 //地区
-                Element e1 = document.getElementsByClass("Virus_1-1-296_3U87rg").get(0);
+                Element e1 = document.getElementsByClass(areaClassName).get(0);
                 realTimeData.setPlace(e1.text());
                 //现存确诊
-                Element e2 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(0);
+                Element e2 = document.getElementsByClass(numClassName).get(0);
                 realTimeData.setExitDiagnosis(CommonUtil.strToNum(e2.text()));
                 //累计确诊
-                Element e3 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(4);
+                Element e3 = document.getElementsByClass(numClassName).get(4);
                 realTimeData.setCountDiagnosis(CommonUtil.strToNum(e3.text()));
                 //境外输入
-                Element e4 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(5);
+                Element e4 = document.getElementsByClass(numClassName).get(5);
                 realTimeData.setAbroad(CommonUtil.strToNum(e4.text()));
                 //无症状
-                Element e5 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(1);
+                Element e5 = document.getElementsByClass(numClassName).get(1);
                 realTimeData.setAsymptomatic(CommonUtil.strToNum(e5.text()));
                 //现存疑似
-                Element e6 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(2);
+                Element e6 = document.getElementsByClass(numClassName).get(2);
                 realTimeData.setExitSuspected(CommonUtil.strToNum(e6.text()));
                 //现存重症
-                Element e7 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(3);
+                Element e7 = document.getElementsByClass(numClassName).get(3);
                 realTimeData.setExitSevere(CommonUtil.strToNum(e7.text()));
                 //累计治愈
-                Element e8 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(6);
+                Element e8 = document.getElementsByClass(numClassName).get(6);
                 realTimeData.setCountCure(CommonUtil.strToNum(e8.text()));
                 //累计死亡
-                Element e9 = document.getElementsByClass("VirusSummarySix_1-1-296_2ZJJBJ").get(7);
+                Element e9 = document.getElementsByClass(numClassName).get(7);
                 realTimeData.setCountDeath(CommonUtil.strToNum(e9.text()));
                 //当天日期
                 realTimeData.setDate(CommonUtil.todayDate());
