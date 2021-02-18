@@ -1,4 +1,4 @@
-package com.gad.epidemicmanage.util;
+package com.gad.epidemicmanage.common;
 
 import lombok.extern.slf4j.Slf4j;
 
