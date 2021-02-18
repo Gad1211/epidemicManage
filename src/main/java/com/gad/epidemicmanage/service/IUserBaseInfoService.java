@@ -1,4 +1,7 @@
 package com.gad.epidemicmanage.service;
 
-public interface IUserBaseInfoService {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.gad.epidemicmanage.pojo.entity.UserBaseInfo;
+
+public interface IUserBaseInfoService extends IService<UserBaseInfo> {
 }

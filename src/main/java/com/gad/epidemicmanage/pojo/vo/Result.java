@@ -1,5 +1,6 @@
-package com.gad.epidemicmanage.common;
+package com.gad.epidemicmanage.pojo.vo;
 
+import com.gad.epidemicmanage.common.GlobalConstant;
 import lombok.Data;
 
 /**

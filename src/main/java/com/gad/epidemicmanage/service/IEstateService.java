@@ -1,4 +1,7 @@
 package com.gad.epidemicmanage.service;
 
-public interface IEstateService {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.gad.epidemicmanage.pojo.entity.Estate;
+
+public interface IEstateService extends IService<Estate> {
 }

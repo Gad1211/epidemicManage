@@ -1,4 +1,7 @@
 package com.gad.epidemicmanage.service;
 
-public interface IOutRecordService {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.gad.epidemicmanage.pojo.entity.OutRecord;
+
+public interface IOutRecordService extends IService<OutRecord> {
 }
