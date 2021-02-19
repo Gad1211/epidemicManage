@@ -1,6 +1,7 @@
 package com.gad.epidemicmanage.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -13,8 +14,8 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@TableName("user")
-public class User implements Serializable {
+@TableName("role")
+public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      *主键
@@ -23,14 +24,15 @@ public class User implements Serializable {
     private Integer id;
 
     /**
-     * 用户名
+     * 用户id
      */
-    private String userName;
+    private Integer userId;
 
     /**
-     * 密码
+     * 角色，1为管理员
      */
-    private String userPassword;
+    private Integer role;
 
     private Date updateTime;
+
 }

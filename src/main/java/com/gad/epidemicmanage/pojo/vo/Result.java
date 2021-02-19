@@ -4,7 +4,7 @@ import com.gad.epidemicmanage.common.GlobalConstant;
 import lombok.Data;
 
 /**
- * @Description 通用Controller返回结果
+ * @Description 通用返回结果
  */
 @Data
 public class Result {

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.pojo.entity.User;
-import com.gad.epidemicmanage.pojo.vo.LoginVo;
 import com.gad.epidemicmanage.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ public class UserController {
     /**
      * 登录操作
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Result login(@RequestBody User user, HttpServletRequest req){
         log.info("开始登录校验");
         Result result = new Result(true,"登录成功");
@@ -38,18 +37,12 @@ public class UserController {
             User curUser = userService.getOne(new LambdaQueryWrapper<User>()
             .eq(User::getUserName,user.getUserName())
             .eq(User::getUserPassword,user.getUserPassword())
-            .eq(User::getRole,user.getRole())
             );
 
             //查询不为空
             if(curUser != null){
                 log.info("登录校验成功");
                 result.setCode(GlobalConstant.REQUEST_SUCCESS_STATUS_CODE);
-                //设置展示对象
-                LoginVo loginVo = new LoginVo();
-                loginVo.setId(curUser.getId());
-                loginVo.setUserName(curUser.getUserName());
-                result.setData(loginVo);
 
                 //设置session
                 //参数为true时，若存在会话，则返回该会话，否则新建一个会话；
