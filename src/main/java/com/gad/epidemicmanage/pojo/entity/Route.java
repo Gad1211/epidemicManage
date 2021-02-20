@@ -41,12 +41,12 @@ public class Route implements Serializable {
     /**
      * 开始时间
      */
-    private Date startDate;
+    private Date startTime;
 
     /**
      * 到达时间
      */
-    private Date endDate;
+    private Date endTime;
 
     /**
      * 交通工具
