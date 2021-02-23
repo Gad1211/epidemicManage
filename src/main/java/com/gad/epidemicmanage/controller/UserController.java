@@ -7,8 +7,15 @@ import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,39 +29,26 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-    private final IUserService userService;
+
+    private static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    final private AuthenticationManager authenticationManager;
 
     /**
      * 登录操作
      */
     @PostMapping("/login")
-    public Result login(@RequestBody User user, HttpServletRequest req){
+    public Result login(@RequestBody User user){
         log.info("开始登录校验");
-        Result result = new Result(true,"登录成功");
-
+        Result result = new Result(true, "登录成功");
+        // 用户验证
+        Authentication authentication = null;
         try {
-            //向数据库查询用户
-            User curUser = userService.getOne(new LambdaQueryWrapper<User>()
-            .eq(User::getUserName,user.getUserName())
-            .eq(User::getUserPassword,user.getUserPassword())
-            );
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getUserPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            //查询不为空
-            if(curUser != null){
-                log.info("登录校验成功");
-                result.setCode(GlobalConstant.REQUEST_SUCCESS_STATUS_CODE);
-
-                //设置session
-                //参数为true时，若存在会话，则返回该会话，否则新建一个会话；
-                //参数为false时，如存在会话，则返回该会话，否则返回NULL；
-                HttpSession session = req.getSession(true);
-                session.setAttribute("userName", curUser.getUserName());
-                log.info("登录成功");
-            }else {
-                log.info("登录校验失败，输入信息错误");
-                result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-                result.setMessage("登录失败，输入信息错误");
-            }
         } catch (Exception e) {
             log.error("登录异常", e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
@@ -66,16 +60,13 @@ public class UserController {
     /**
      * 注销操作
      */
-    @GetMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/logout")
     public Result logout(HttpServletRequest req){
         log.info("开始注销");
         Result result = new Result(true,"注销成功");
         try{
-            //删除session
-            req.getSession().invalidate();
-            result.setMessage("注销成功");
-            result.setCode(GlobalConstant.REQUEST_SUCCESS_STATUS_CODE);
-            log.info("注销成功");
+            SecurityContextHolder.clearContext();
         }catch (Exception e){
             log.error("注销异常", e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);

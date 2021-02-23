@@ -29,9 +29,9 @@ public class Role implements Serializable {
     private Integer userId;
 
     /**
-     * 角色，1为管理员
+     * 角色
      */
-    private Integer role;
+    private String role;
 
     private Date updateTime;
 
