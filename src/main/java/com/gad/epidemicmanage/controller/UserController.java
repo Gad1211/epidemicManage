@@ -1,23 +1,18 @@
 package com.gad.epidemicmanage.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.pojo.entity.User;
-import com.gad.epidemicmanage.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author  guoandong
@@ -29,8 +24,6 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-
-    private static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     final private AuthenticationManager authenticationManager;
 
@@ -44,11 +37,28 @@ public class UserController {
         // 用户验证
         Authentication authentication = null;
         try {
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getUserPassword()));
+            try {
+                // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+                authentication = authenticationManager
+                        .authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getUserPassword()));
+            }catch (BadCredentialsException e){
+                result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
+                result.setMessage("密码错误");
+                log.info("密码错误");
+                return result;
+            } catch (UsernameNotFoundException e){
+                result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
+                //截取异常打印
+                String str = e.toString();
+                String str1=str.substring(0, str.indexOf(": "));
+                String str2=str.substring(str1.length()+2);
+                result.setMessage(str2);
+                log.info(str2);
+                return result;
+            }
+            // 如果没有设置自定义的策略，就采用MODE_THREADLOCAL模式
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            log.info("登录成功");
         } catch (Exception e) {
             log.error("登录异常", e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
@@ -62,7 +72,7 @@ public class UserController {
      */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/logout")
-    public Result logout(HttpServletRequest req){
+    public Result logout(){
         log.info("开始注销");
         Result result = new Result(true,"注销成功");
         try{

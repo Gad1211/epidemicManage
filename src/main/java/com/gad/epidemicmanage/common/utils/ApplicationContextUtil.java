@@ -1,4 +1,4 @@
-package com.gad.epidemicmanage.common;
+package com.gad.epidemicmanage.common.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ApplicationObjectSupport;

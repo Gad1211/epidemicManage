@@ -1,4 +1,4 @@
-package com.gad.epidemicmanage.common;
+package com.gad.epidemicmanage.common.utils;
 
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gargoylesoftware.htmlunit.BrowserVersion;

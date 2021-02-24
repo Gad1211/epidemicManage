@@ -2,24 +2,18 @@ package com.gad.epidemicmanage.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.gad.epidemicmanage.common.ApplicationContextUtil;
 import com.gad.epidemicmanage.pojo.entity.Role;
 import com.gad.epidemicmanage.pojo.entity.RoleDetail;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.pojo.entity.UserDetail;
 import com.gad.epidemicmanage.service.IRoleService;
 import com.gad.epidemicmanage.service.IUserService;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,7 +46,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         if("".equals(username) || username == null){
-            log.info("输入用户名为空！");
             throw new UsernameNotFoundException("用户名不能为空!");
         }
         //手动注入
@@ -64,8 +57,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         );
 
         if(curUser == null){
-            log.info("账号密码有误！");
-            throw new UsernameNotFoundException("账号密码有误！");
+            throw new UsernameNotFoundException("该账号不存在！");
         }
 //        IRoleService roleService = context.getBean(IRoleService.class);
         //查询用户角色

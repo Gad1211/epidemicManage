@@ -16,8 +16,18 @@ public class GlobalConstant {
     public static final Integer REQUEST_SUCCESS_STATUS_CODE = 200;
 
     /**
+     * 请求成功消息
+     */
+    public static final String REQUEST_SUCCESS_STATUS_MESSAGE = "请求成功";
+
+    /**
      * 请求错误状态码
      */
     public static final Integer REQUEST_ERROR_STATUS_CODE = 500;
+
+    /**
+     * 请求错误消息
+     */
+    public static final String REQUEST_ERROR_STATUS_MESSAGE = "请求失败";
 
 }

@@ -1,4 +1,4 @@
-package com.gad.epidemicmanage.common;
+package com.gad.epidemicmanage.common.utils;
 
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
