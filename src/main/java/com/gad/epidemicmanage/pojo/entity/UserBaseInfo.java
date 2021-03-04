@@ -44,14 +44,9 @@ public class UserBaseInfo implements Serializable {
     private String estate;
 
     /**
-     * 门牌号id
-     */
-    private Integer houseNumberId;
-
-    /**
      * 门牌号
      */
-    private String houseNumberInfo;
+    private String houseNumber;
 
     /**
      * 身份证号
@@ -71,7 +66,7 @@ public class UserBaseInfo implements Serializable {
     /**
      * 电话
      */
-    private Integer phone;
+    private String phone;
 
     private Date updateTime;
 }
