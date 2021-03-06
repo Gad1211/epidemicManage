@@ -16,7 +16,7 @@ public interface IJobAndTriggerService {
 	 * @param cronExpression
 	 * @return
 	 */
-	boolean addJob(String jobName, String jobClassName, String jobGroupName, String cronExpression);
+	boolean addJob(String jobName, String jobClassName, String jobGroupName, String cronExpression,JobDataMap map);
 
 	/**
 	 * 添加单次任务

@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 /**
  * @author  guoandong
  * @date  2021/3/4 13:56
- * @desc 用户操作controller
+ * @desc 用户管理controller
  **/
 
 @Slf4j
@@ -47,9 +47,7 @@ public class UserController {
         log.info("开始注册");
         Result result = new Result(true, "注册成功");
         try{
-            //加密密码存入数据库，不然无法存入
-            user.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(user.getUserPassword()));
-            userService.save(user);
+            userService.insertUser(user);
             log.info("注册成功");
         }catch (Exception e){
             log.error("注册失败："+e);
@@ -115,63 +113,6 @@ public class UserController {
             log.error("删除用户失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
             result.setMessage("删除用户失败");
-        }
-        return result;
-    }
-
-    /**
-     * 记录用户详细信息
-     */
-    @PostMapping("/insertBaseInfo")
-    public Result recordBaseInfo(@RequestBody UserBaseInfo userBaseInfo){
-        log.info("开始记录用户详细信息");
-        Result result = new Result(true, "用户详细信息记录成功");
-        try{
-            userBaseInfoService.save(userBaseInfo);
-            log.info("用户详细信息记录成功");
-        }catch (Exception e){
-            log.error("注册失败："+e);
-            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("用户详细信息记录失败");
-        }
-        return result;
-    }
-
-    /**
-     * 查询用户信息
-     */
-    @GetMapping("/queryBaseInfo/{userId}")
-    public Result queryBaseInfo(@PathVariable Integer userId){
-        log.info("开始查询用户详细信息");
-        Result result = new Result(true, "查询用户详细信息成功");
-        try{
-            UserBaseInfo userBaseInfo = userBaseInfoService.getOne(new LambdaQueryWrapper<UserBaseInfo>()
-                    .eq(UserBaseInfo::getUserId,userId));
-            result.setData(userBaseInfo);
-            log.info("查询用户详细信息成功");
-        }catch (Exception e){
-            log.error("查询用户详细信息失败："+e);
-            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("查询用户详细信息失败");
-        }
-        return result;
-    }
-
-    /**
-     * 修改用户详细信息
-     * @return
-     */
-    @PostMapping("/updateUserBaseInfo")
-    public Result updateUserBaseInfo(@RequestBody UserBaseInfo userBaseInfo){
-        log.info("修改用户详细信息开始");
-        Result result = new Result(true, "修改用户详细信息成功");
-        try{
-            userBaseInfoService.updateUserBaseInfo(userBaseInfo);
-            log.info("修改用户详细信息成功");
-        }catch (Exception e){
-            log.error("修改用户详细信息失败："+e);
-            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("修改用户详细信息失败");
         }
         return result;
     }

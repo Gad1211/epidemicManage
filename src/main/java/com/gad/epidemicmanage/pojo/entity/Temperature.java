@@ -29,6 +29,11 @@ public class Temperature implements Serializable {
     private Integer userId;
 
     /**
+     * 用户账户名
+     */
+    private String userName;
+
+    /**
      * 体温
      */
     private Float temperature;
@@ -36,7 +41,7 @@ public class Temperature implements Serializable {
     /**
      * 日期
      */
-    private Date date;
+    private String date;
 
     private Date updateTime;
 }

@@ -14,8 +14,8 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@TableName("condition")
-public class Condition implements Serializable {
+@TableName("states")
+public class States implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -28,6 +28,11 @@ public class Condition implements Serializable {
      * 用户id
      */
     private Integer userId;
+
+    /**
+     * 用户账户名
+     */
+    private String userName;
 
     /**
      * 是否异常

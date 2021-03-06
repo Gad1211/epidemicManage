@@ -8,6 +8,11 @@ import com.gad.epidemicmanage.pojo.entity.User;
 public interface IUserService extends IService<User> {
 
     /**
+     * 注册用户
+     */
+    void insertUser(User user);
+
+    /**
      * 分页查询所有用户
      */
     IPage<User> queryUsers(UserListDto userListDto);

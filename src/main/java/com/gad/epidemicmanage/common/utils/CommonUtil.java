@@ -14,17 +14,22 @@ import java.util.Date;
 public class CommonUtil {
     /**
      * 将字符串转型为yyyy-MM-dd格式
-     * return Date
+     * return java.sql.Date
      * */
-    public static Date dateFormate(String date){
+    public static java.sql.Date dateFormate(String date){
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = null;
+        java.sql.Date date2 = null;
         try {
             date1 = format.parse(date);
+            date2 = new java.sql.Date(date1.getTime());
         } catch (ParseException e) {
             log.error("字符串转型为yyyy-MM-dd格式异常，请检查入参");
+        } catch (NullPointerException e){
+            log.error("空指针异常，请检查入参");
         }
-        return date1;
+
+        return date2;
     }
 
     /**

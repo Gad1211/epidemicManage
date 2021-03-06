@@ -3,6 +3,7 @@ package com.gad.epidemicmanage.task;
 import com.gad.epidemicmanage.service.IJobAndTriggerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -23,13 +24,13 @@ public class TaskStart implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (context.isActive()) {
-
             /**
              * 获取实时疫情数据,每天更新两次
              */
+            JobDataMap map = new JobDataMap();
             jobAndTriggerService.addJob("RealTimeDataTask",
                     "com.gad.epidemicmanage.task.RealTimeDataTask",
-                    "default", "10 00 09,18 * * ? ");
+                    "default", "10 00 09,18 * * ? ",map);
         }
     }
 }

@@ -34,10 +34,10 @@ CREATE TABLE `community`  (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for condition
+-- Table structure for states
 -- ----------------------------
-DROP TABLE IF EXISTS `condition`;
-CREATE TABLE `condition`  (
+DROP TABLE IF EXISTS `states`;
+CREATE TABLE `states`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `is_abnormal` tinyint(1) NULL DEFAULT 0 COMMENT '是否身体异常:0为正常，1为异常',
@@ -48,7 +48,7 @@ CREATE TABLE `condition`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of condition
+-- Records of states
 -- ----------------------------
 
 -- ----------------------------
