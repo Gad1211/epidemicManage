@@ -1,5 +1,6 @@
 package com.gad.epidemicmanage.pojo.entity;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -21,12 +22,17 @@ public class OutRecord implements Serializable {
      *主键,时间加用户id生成
      */
     @TableId(value = "id")
-    private Integer id;
+    private String id;
 
     /**
      * 用户id
      */
     private Integer userId;
+
+    /**
+     * 用户名称
+     */
+    private String userName;
 
     /**
      * 事情
@@ -36,12 +42,12 @@ public class OutRecord implements Serializable {
     /**
      * 外出时间
      */
-    private Date outStartTime;
+    private String outStartTime;
 
     /**
      * 返回时间
      */
-    private Date outBackTime;
+    private String outBackTime;
 
     private Date updateTime;
 }

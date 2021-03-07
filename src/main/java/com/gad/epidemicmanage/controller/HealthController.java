@@ -39,6 +39,7 @@ public class HealthController {
         log.info("开始填报体温数据");
         Result result = new Result(true, "体温数据填报成功");
         try{
+            //TODO 体温填报异常时的处理
             temperatureService.insertTemperature(userId,temperatureNum);
             log.info("体温数据填报成功");
         }catch (Exception e){

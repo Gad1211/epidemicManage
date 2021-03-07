@@ -50,4 +50,9 @@ public class GlobalConstant {
      */
     public static final int STATE_TRUE = 1;
 
+    /**
+     * 体温异常状态阈值
+     */
+    public static final float ABNORMAL_TEMPERATURE = 37.5f;
+
 }

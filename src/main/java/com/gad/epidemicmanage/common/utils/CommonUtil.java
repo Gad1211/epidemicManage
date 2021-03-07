@@ -41,6 +41,11 @@ public class CommonUtil {
     }
 
     /**
+     * 外出记录时间戳 年月日时分
+     */
+    public static String getRecordTimeStamp(){ return new SimpleDateFormat("yyyyMMddHHmm").format(new Date()); }
+
+    /**
      * 含有逗号的字符串转数字
      * 因场景原因，不处理负数
      * 如果不含有逗号的，直接转换为int传回

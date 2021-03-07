@@ -29,6 +29,11 @@ public class Route implements Serializable {
     private Integer userId;
 
     /**
+     * 用户名称
+     */
+    private String userName;
+
+    /**
      * 出发地
      */
     private String startPlace;
@@ -41,12 +46,12 @@ public class Route implements Serializable {
     /**
      * 开始时间
      */
-    private Date startTime;
+    private String startTime;
 
     /**
      * 到达时间
      */
-    private Date endTime;
+    private String endTime;
 
     /**
      * 交通工具
