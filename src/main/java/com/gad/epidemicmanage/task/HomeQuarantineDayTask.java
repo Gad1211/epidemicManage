@@ -38,6 +38,7 @@ public class HomeQuarantineDayTask implements Job {
         if (curDays == 0){
             jobAndTriggerService.deleteJob("com.gad.epidemicmanage.task.HomeQuarantineDayTask",
                     "default");
+            log.info("userId:" +userId + " 居家隔离已结束");
         }else{
             //减一天后重新存入
             statesService.updateHomeQuarantineDay(userId,curDays-1);

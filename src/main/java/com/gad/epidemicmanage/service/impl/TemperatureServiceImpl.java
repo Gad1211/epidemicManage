@@ -37,7 +37,6 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         temperature.setDate(CommonUtil.todayDate());
 
         save(temperature);
-        //TODO 体温异常时，反馈数据给管理员
         //更新states表身体异常 37.5
         if(temperatureNum > GlobalConstant.ABNORMAL_TEMPERATURE){
             statesService.updateCondition(userId, GlobalConstant.STATE_TRUE,GlobalConstant.STATE_FALSE);

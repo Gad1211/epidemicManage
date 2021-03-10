@@ -48,7 +48,6 @@ public class UserBaseInfoController {
 
             if(userBaseInfoDto.getAbnormal() == STATE_TRUE){
                 statesService.updateCondition(userBaseInfoDto.getUserId(),STATE_TRUE,STATE_FALSE);
-                //TODO 身体异常后通知管理员
                 log.info("该用户身体异常");
             }else if (userBaseInfoDto.getHighRisk() == STATE_TRUE){
                 statesService.updateCondition(userBaseInfoDto.getUserId(),STATE_FALSE,STATE_TRUE);

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.CommonUtil;
 import com.gad.epidemicmanage.pojo.dto.TemperatureDto;
+import com.gad.epidemicmanage.pojo.entity.States;
 import com.gad.epidemicmanage.pojo.entity.Temperature;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IStatesService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author  guoandong
@@ -29,7 +31,7 @@ public class HealthController {
     ITemperatureService temperatureService;
 
     @Resource
-    IStatesService conditionService;
+    IStatesService statesService;
 
     /**
      * 体温填报
@@ -39,7 +41,6 @@ public class HealthController {
         log.info("开始填报体温数据");
         Result result = new Result(true, "体温数据填报成功");
         try{
-            //TODO 体温填报异常时的处理
             temperatureService.insertTemperature(userId,temperatureNum);
             log.info("体温数据填报成功");
         }catch (Exception e){
@@ -86,6 +87,47 @@ public class HealthController {
             log.error("删除体温数据失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
             result.setMessage("删除体温数据失败");
+        }
+        return result;
+    }
+
+    /**
+     * 查询异常体温
+     */
+    @PostMapping("/queryAbnormalTemperature")
+    public Result queryAbnormalInfo(){
+        log.info("查询异常体温开始");
+        Result result = new Result(true, "查询异常体温成功");
+        try{
+            List<States> res = statesService.list(new LambdaQueryWrapper<States>()
+                    .eq(States::getAbnormal,GlobalConstant.STATE_TRUE));
+            result.setData(res);
+            log.info("查询异常体温成功");
+        }catch (Exception e){
+            log.error("查询异常体温失败："+e);
+            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
+            result.setMessage("查询异常体温失败");
+        }
+        return result;
+    }
+
+    /**
+     * 查询高风险地区
+     */
+    @PostMapping("/queryHighRiskArea")
+    public Result queryHighRiskArea(){
+        log.info("查询高风险地区开始");
+        Result result = new Result(true, "查询高风险地区成功");
+        try{
+            List<States> res = statesService.list(new LambdaQueryWrapper<States>()
+                    .eq(States::getHighRisk,GlobalConstant.STATE_TRUE));
+
+            result.setData(res);
+            log.info("查询高风险地区成功");
+        }catch (Exception e){
+            log.error("查询高风险地区失败："+e);
+            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
+            result.setMessage("查询高风险地区失败");
         }
         return result;
     }
