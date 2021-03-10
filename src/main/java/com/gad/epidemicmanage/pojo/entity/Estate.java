@@ -1,8 +1,6 @@
 package com.gad.epidemicmanage.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -36,6 +34,7 @@ public class Estate implements Serializable {
     /**
      * 社区id
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer communityId;
 
     private Date updateTime;

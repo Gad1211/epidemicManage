@@ -11,6 +11,7 @@ import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IStatesService;
 import com.gad.epidemicmanage.service.ITemperatureService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,7 +95,7 @@ public class HealthController {
     /**
      * 查询异常体温
      */
-    @PostMapping("/queryAbnormalTemperature")
+    @GetMapping("/queryAbnormalTemperature")
     public Result queryAbnormalInfo(){
         log.info("查询异常体温开始");
         Result result = new Result(true, "查询异常体温成功");
@@ -114,7 +115,7 @@ public class HealthController {
     /**
      * 查询高风险地区
      */
-    @PostMapping("/queryHighRiskArea")
+    @GetMapping("/queryHighRiskArea")
     public Result queryHighRiskArea(){
         log.info("查询高风险地区开始");
         Result result = new Result(true, "查询高风险地区成功");

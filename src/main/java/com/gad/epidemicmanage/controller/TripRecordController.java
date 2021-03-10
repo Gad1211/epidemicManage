@@ -121,7 +121,8 @@ public class TripRecordController {
         log.info("开始查询行程记录");
         Result result = new Result(true,"查询行程记录成功");
         try{
-            routeService.queryRoutes(routeDto);
+            IPage<Route> page = routeService.queryRoutes(routeDto);
+            result.setData(page);
             log.info("查询行程记录成功");
         }catch (Exception e){
             log.error("查询行程记录失败："+e);

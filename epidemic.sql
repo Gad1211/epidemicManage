@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 06/03/2021 18:18:24
+ Date: 10/03/2021 16:13:36
 */
 
 SET NAMES utf8mb4;
@@ -27,12 +27,12 @@ CREATE TABLE `community`  (
   `community_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '社区地址',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of community
 -- ----------------------------
-INSERT INTO `community` VALUES (1, '东兴路社区', '重庆市南岸区南坪东路', '2021-03-04 14:47:45');
+INSERT INTO `community` VALUES (1, '东兴路社区', '重庆市南岸区南坪东路', '2021-03-10 15:34:33');
 INSERT INTO `community` VALUES (2, '响水路社区', '重庆市南岸区响水路', '2021-03-04 14:43:43');
 INSERT INTO `community` VALUES (3, '阳光社区', '重庆市南岸区宏声路', '2021-03-04 14:43:54');
 
@@ -44,7 +44,7 @@ CREATE TABLE `estate`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `estate_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '小区名称',
   `estate_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '小区地址',
-  `community_id` int(11) NOT NULL COMMENT '所属社区id',
+  `community_id` int(11) NULL DEFAULT NULL COMMENT '所属社区id',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -64,8 +64,9 @@ INSERT INTO `estate` VALUES (6, '阳光南滨', '重庆市南岸区南坪宏声�
 -- ----------------------------
 DROP TABLE IF EXISTS `out_record`;
 CREATE TABLE `out_record`  (
-  `id` int(11) NOT NULL COMMENT '外出记录主键，不自动递增，代码生成',
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '外出记录主键，不自动递增，代码生成',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名称',
   `thing` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '外出事项',
   `out_start_time` datetime(0) NULL DEFAULT NULL COMMENT '外出时间',
   `out_back_time` datetime(0) NULL DEFAULT NULL COMMENT '返回时间',
@@ -76,7 +77,8 @@ CREATE TABLE `out_record`  (
 -- ----------------------------
 -- Records of out_record
 -- ----------------------------
-INSERT INTO `out_record` VALUES (220210115, 2, '购物', '2021-01-15 10:19:00', '2021-01-15 17:19:09', '2021-02-20 10:20:03');
+INSERT INTO `out_record` VALUES ('2021011517102', 2, NULL, '购物', '2021-01-15 10:19:00', '2021-01-15 17:19:09', '2021-03-07 16:13:24');
+INSERT INTO `out_record` VALUES ('2021030715492', 2, NULL, '工作', '2021-03-07 10:19:00', '2021-03-07 17:26:00', '2021-03-07 15:49:59');
 
 -- ----------------------------
 -- Table structure for real_time_data
@@ -96,7 +98,7 @@ CREATE TABLE `real_time_data`  (
   `c_death` int(11) NULL DEFAULT NULL COMMENT '累计死亡',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of real_time_data
@@ -129,7 +131,7 @@ CREATE TABLE `role`  (
   `role` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '角色',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
@@ -144,6 +146,7 @@ DROP TABLE IF EXISTS `route`;
 CREATE TABLE `route`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名称',
   `start_place` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '出发地',
   `end_place` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '到达地',
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '出发日期',
@@ -157,7 +160,7 @@ CREATE TABLE `route`  (
 -- ----------------------------
 -- Records of route
 -- ----------------------------
-INSERT INTO `route` VALUES (1, 2, '成都', '重庆', '2021-01-01 00:00:00', '2021-01-01 00:00:00', '高铁', '3车11F', '2021-02-20 10:14:21');
+INSERT INTO `route` VALUES (1, 2, NULL, '成都', '重庆', '2021-01-01 00:00:00', '2021-01-01 00:00:00', '高铁', '3车11F', '2021-02-20 10:14:21');
 
 -- ----------------------------
 -- Table structure for states
@@ -172,12 +175,13 @@ CREATE TABLE `states`  (
   `home_quarantine_day` int(11) NULL DEFAULT 0 COMMENT '居家隔离天数',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of states
 -- ----------------------------
-INSERT INTO `states` VALUES (3, 2, 'ls', 0, 1, 3, '2021-03-06 18:11:27');
+INSERT INTO `states` VALUES (1, 1, 'admin', 0, 1, 0, '2021-03-10 15:52:18');
+INSERT INTO `states` VALUES (3, 2, 'ls', 1, 0, 0, '2021-03-07 15:47:00');
 
 -- ----------------------------
 -- Table structure for temperature
@@ -191,7 +195,7 @@ CREATE TABLE `temperature`  (
   `date` date NULL DEFAULT NULL COMMENT '日期',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of temperature
@@ -199,6 +203,8 @@ CREATE TABLE `temperature`  (
 INSERT INTO `temperature` VALUES (1, 2, NULL, 36.5, '2021-01-03', '2021-02-20 10:14:42');
 INSERT INTO `temperature` VALUES (3, 1, 'admin', 36.5, '2021-03-05', '2021-03-06 14:57:32');
 INSERT INTO `temperature` VALUES (4, 1, 'admin', 36.4, '2021-03-06', '2021-03-06 14:59:35');
+INSERT INTO `temperature` VALUES (5, 2, 'ls', 36.6, '2021-03-10', '2021-03-10 15:48:25');
+INSERT INTO `temperature` VALUES (6, 2, 'ls', 38, '2021-03-10', '2021-03-10 15:48:40');
 
 -- ----------------------------
 -- Table structure for user
@@ -210,7 +216,7 @@ CREATE TABLE `user`  (
   `user_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -235,7 +241,7 @@ CREATE TABLE `user_base_info`  (
   `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_base_info
