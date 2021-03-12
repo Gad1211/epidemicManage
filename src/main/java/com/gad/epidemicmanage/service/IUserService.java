@@ -10,7 +10,7 @@ public interface IUserService extends IService<User> {
     /**
      * 注册用户
      */
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      * 分页查询所有用户

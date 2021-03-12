@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gad.epidemicmanage.pojo.dto.RouteDto;
 import com.gad.epidemicmanage.pojo.entity.Route;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface IRouteService extends IService<Route> {
     /**
      * 新增行程记录
@@ -15,4 +17,9 @@ public interface IRouteService extends IService<Route> {
      * 查询行程记录
      */
     IPage<Route> queryRoutes(RouteDto routeDto);
+
+    /**
+     * 导出Excel
+     */
+    void exportRouteExcel(HttpServletResponse response) throws Exception;
 }

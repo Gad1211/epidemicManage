@@ -47,8 +47,14 @@ public class UserController {
         log.info("开始注册");
         Result result = new Result(true, "注册成功");
         try{
-            userService.insertUser(user);
-            log.info("注册成功");
+            int flag = userService.insertUser(user);
+
+            //根据返回值判断是否重名,重名未注册成功
+            if(flag == GlobalConstant.STATE_FALSE){
+                result.setMessage("注册失败，用户名已被使用");
+            }else{
+                log.info("注册成功");
+            }
         }catch (Exception e){
             log.error("注册失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);

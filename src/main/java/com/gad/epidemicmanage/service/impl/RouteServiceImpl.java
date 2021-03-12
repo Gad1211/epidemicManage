@@ -12,9 +12,16 @@ import com.gad.epidemicmanage.pojo.entity.Route;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.service.IRouteService;
 import com.gad.epidemicmanage.service.IUserService;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Service
 public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements IRouteService {
@@ -57,5 +64,52 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
         //日期降序
         queryWrapper.orderByDesc(Route::getStartTime);
         return page(page,queryWrapper);
+    }
+
+    @Override
+    public void exportRouteExcel(HttpServletResponse response) throws Exception{
+        //获取所有通信录信息
+        List<Route> list = list();
+
+        HSSFWorkbook book = new HSSFWorkbook();
+        HSSFSheet sheet = book.createSheet("行程信息");
+        sheet.setDefaultColumnWidth(15);
+        //表头行创建
+        HSSFRow header = sheet.createRow(0);
+        header.createCell(0).setCellValue("用户ID");
+        header.createCell(1).setCellValue("用户名");
+        header.createCell(2).setCellValue("出发地");
+        header.createCell(3).setCellValue("到达地");
+        header.createCell(4).setCellValue("出发时间");
+        header.createCell(5).setCellValue("到达时间");
+        header.createCell(6).setCellValue("交通工具");
+        header.createCell(7).setCellValue("座次");
+        //数据写入单元格
+        for (int i = 0; i < list.size(); i++) {
+            Route route = list.get(i);
+            HSSFRow row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(route.getUserId());
+            row.createCell(1).setCellValue(route.getUserName());
+            row.createCell(2).setCellValue(route.getStartPlace());
+            row.createCell(3).setCellValue(route.getEndPlace());
+            row.createCell(4).setCellValue(route.getStartTime());
+            row.createCell(5).setCellValue(route.getEndTime());
+            row.createCell(6).setCellValue(route.getVehicle());
+            row.createCell(7).setCellValue(route.getVehicleSeatNumber());
+        }
+
+        String fileName = "行程表.xls";
+
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+
+        // 清空response
+        response.reset();
+        // 设置response的Header
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        response.setCharacterEncoding("UTF-8");
+
+        OutputStream outputStream = response.getOutputStream();
+        book.write(outputStream);
     }
 }

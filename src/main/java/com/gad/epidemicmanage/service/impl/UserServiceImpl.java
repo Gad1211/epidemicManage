@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -31,7 +32,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     IRoleService roleService;
 
     @Override
-    public void insertUser(User user) {
+    public int insertUser(User user){
+        //查询所有用户，避免用户名重复
+        List<User> users = list();
+        for(User curUser:users){
+            if(curUser.getUserName().equals(user.getUserName())){
+                log.info("该用户名已被使用");
+                return GlobalConstant.STATE_FALSE;
+            }
+        }
+
         //加密密码存入数据库，不然无法存入
         user.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(user.getUserPassword()));
         save(user);
@@ -45,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         role.setRole(GlobalConstant.ROLE_USER);
         roleService.save(role);
         log.info("角色信息保存完成");
+        return GlobalConstant.STATE_TRUE;
     }
 
     @Override
