@@ -51,6 +51,21 @@ public class GlobalConstant {
     public static final int STATE_TRUE = 1;
 
     /**
+     * 邮件发送人地址
+     */
+    public static final String SENDER_MAIL_ADDRESS = "2246953153@qq.com";
+
+    /**
+     * 邮件接收人地址
+     */
+    public static final String RECEIVER_MAIL_ADDRESS = "1341748476@qq.com";
+
+    /**
+     * 邮件授权码
+     */
+    public static final String MAIL_KEY = "jnaqntxxercxebad";
+
+    /**
      * 体温异常状态阈值
      */
     public static final float ABNORMAL_TEMPERATURE = 37.5f;

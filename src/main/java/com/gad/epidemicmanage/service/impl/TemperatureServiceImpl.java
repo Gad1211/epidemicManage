@@ -6,17 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.CommonUtil;
+import com.gad.epidemicmanage.common.utils.MailUtil;
 import com.gad.epidemicmanage.mapper.TemperatureMapper;
 import com.gad.epidemicmanage.pojo.dto.TemperatureDto;
 import com.gad.epidemicmanage.pojo.entity.Temperature;
 import com.gad.epidemicmanage.pojo.entity.User;
-import com.gad.epidemicmanage.service.IStatesService;
-import com.gad.epidemicmanage.service.ITemperatureService;
-import com.gad.epidemicmanage.service.IUserService;
+import com.gad.epidemicmanage.pojo.entity.UserBaseInfo;
+import com.gad.epidemicmanage.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import java.security.GeneralSecurityException;
 
 @Slf4j
 @Service
@@ -26,10 +29,13 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
     IUserService userService;
 
     @Resource
+    IJobAndTriggerService jobAndTriggerService;
+
+    @Resource
     IStatesService statesService;
 
     @Override
-    public void insertTemperature(Integer userId, Float temperatureNum) {
+    public void insertTemperature(Integer userId, Float temperatureNum){
         Temperature temperature = new Temperature();
         temperature.setUserId(userId);
         temperature.setUserName(userService.getOne(new LambdaQueryWrapper<User>().eq(User::getId,userId)).getUserName());
@@ -40,6 +46,14 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         //更新states表身体异常 37.5
         if(temperatureNum > GlobalConstant.ABNORMAL_TEMPERATURE){
             statesService.updateCondition(userId, GlobalConstant.STATE_TRUE,GlobalConstant.STATE_FALSE);
+
+            //添加单次任务，异步发送邮件
+            JobDataMap jobDataMap = new JobDataMap();
+            jobDataMap.put("userId",userId);
+            jobAndTriggerService.addOnceJob("SendMailTask",
+                    "com.gad.epidemicmanage.task.SendMailTask",
+                    "default", jobDataMap);
+
             log.info("体温异常，已更新states");
         }
     }

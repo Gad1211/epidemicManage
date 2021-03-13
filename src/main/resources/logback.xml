@@ -66,6 +66,10 @@
     <logger name="com.gargoylesoftware.htmlunit" level="OFF">
     </logger>
 
+    <!-- 屏蔽所有javax.mail包的日志 -->
+    <logger name="javax.mail" level="OFF">
+    </logger>
+
     <root level="info">
         <appender-ref ref="file_info" />
         <appender-ref ref="file_warn" />
