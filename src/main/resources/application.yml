@@ -6,11 +6,11 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://42.193.131.98:3306/epidemic?autoReconnect=true&characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
-    url: jdbc:mysql://localhost:3306/epidemic?autoReconnect=true&characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://42.193.131.98:3306/epidemic?autoReconnect=true&characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
+#    url: jdbc:mysql://localhost:3306/epidemic?autoReconnect=true&characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
     username: root
-#    password: Gad1211!
-    password: 123456
+    password: Gad1211!
+#    password: 123456
     druid:
       initial-size: 15
       min-idle: 10
