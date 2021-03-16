@@ -1,18 +1,13 @@
 package com.gad.epidemicmanage.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
-import com.gad.epidemicmanage.common.utils.BCryptPasswordEncoderUtils;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
-import com.gad.epidemicmanage.pojo.entity.Role;
 import com.gad.epidemicmanage.pojo.entity.User;
-import com.gad.epidemicmanage.pojo.entity.UserBaseInfo;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IRoleService;
 import com.gad.epidemicmanage.service.IUserBaseInfoService;
 import com.gad.epidemicmanage.service.IUserService;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -66,12 +61,13 @@ public class UserController {
     /**
      * 条件分页查询所有用户
      */
-    @GetMapping("/queryUsers")
+    @PostMapping("/queryUsers")
     public Result queryUsers(@RequestBody UserListDto userListDto){
         log.info("查询所有用户开始");
         Result result = new Result(true, "查询所有用户成功");
         try{
             IPage<User> userPage = userService.queryUsers(userListDto);
+
             result.setData(userPage);
             log.info("查询所有用户成功");
         }catch (Exception e){
@@ -122,6 +118,5 @@ public class UserController {
         }
         return result;
     }
-
-
+    
 }

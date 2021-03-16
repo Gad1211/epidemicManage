@@ -36,11 +36,17 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
 
     @Override
     public void insertTemperature(Integer userId, Float temperatureNum){
+        String date = CommonUtil.todayDate();
+        //先删除今日原来的
+        remove(new LambdaQueryWrapper<Temperature>().eq(Temperature::getDate,date));
+
+
+        //保存新的
         Temperature temperature = new Temperature();
         temperature.setUserId(userId);
         temperature.setUserName(userService.getOne(new LambdaQueryWrapper<User>().eq(User::getId,userId)).getUserName());
         temperature.setTemperature(temperatureNum);
-        temperature.setDate(CommonUtil.todayDate());
+        temperature.setDate(date);
 
         save(temperature);
         //更新states表身体异常 37.5
@@ -63,9 +69,10 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         LambdaQueryWrapper<Temperature> queryWrapper = new LambdaQueryWrapper<>();
         Page<Temperature> page = new Page<>(temperatureDto.getCurrentPage(), temperatureDto.getPageSize());
 
+        if(temperatureDto.getUserId()!=null){
         //匹配指定用户体温记录
-        queryWrapper.eq(Temperature::getUserId,temperatureDto.getUserId());
-
+            queryWrapper.eq(Temperature::getUserId,temperatureDto.getUserId());
+        }
         //若日期不为空则查询指定日期
         if(!temperatureDto.getDate().isEmpty()){
             queryWrapper.eq(Temperature::getDate, CommonUtil.dateFormate(temperatureDto.getDate()));

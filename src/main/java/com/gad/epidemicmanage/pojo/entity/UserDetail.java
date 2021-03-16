@@ -29,14 +29,15 @@ public class UserDetail implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return user.getUserName();
+    }
+
+    @Override
     public String getPassword() {
         return user.getUserPassword();
     }
 
-    @Override
-    public String getUsername() {
-        return user.getUserName();
-    }
 
     /**
      *   账号是否过期

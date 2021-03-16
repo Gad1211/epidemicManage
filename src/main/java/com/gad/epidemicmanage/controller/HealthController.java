@@ -71,15 +71,12 @@ public class HealthController {
     /**
      * 体温删除
      */
-    @PostMapping("/deleteTemperature")
-    public Result deleteTemperature(Integer userId,String date){
+    @PostMapping("/deleteTemperature/{id}")
+    public Result deleteTemperature(@PathVariable Integer id){
         log.info("删除体温数据开始");
         Result result = new Result(true, "删除体温数据成功");
         try{
-            temperatureService.remove(new LambdaQueryWrapper<Temperature>()
-                .eq(Temperature::getUserId,userId)
-                .eq(Temperature::getDate, CommonUtil.dateFormate(date))
-            );
+            temperatureService.removeById(id);
             log.info("删除体温数据成功");
         }catch (Exception e){
             log.error("删除体温数据失败："+e);

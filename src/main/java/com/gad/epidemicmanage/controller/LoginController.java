@@ -3,6 +3,7 @@ package com.gad.epidemicmanage.controller;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.pojo.entity.User;
+import com.gad.epidemicmanage.pojo.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,9 +11,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * @author  guoandong
@@ -41,7 +45,11 @@ public class LoginController {
                 // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
                 authentication = authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getUserPassword()));
-                result.setData(authentication.getAuthorities());
+
+                UserVo userVo = new UserVo();
+                userVo.setUserName(authentication.getName());
+                userVo.setAuthorities(authentication.getAuthorities());
+                result.setData(userVo);
             }catch (BadCredentialsException e){
                 result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
                 result.setMessage("密码错误");
@@ -78,6 +86,7 @@ public class LoginController {
         Result result = new Result(true,"注销成功");
         try{
             SecurityContextHolder.clearContext();
+            log.info("注销成功");
         }catch (Exception e){
             log.error("注销异常", e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
