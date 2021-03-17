@@ -1,5 +1,6 @@
 package com.gad.epidemicmanage.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
@@ -48,6 +49,8 @@ public class UserController {
             if(flag == GlobalConstant.STATE_FALSE){
                 result.setMessage("注册失败，用户名已被使用");
             }else{
+                result.setData(userService.getOne(new LambdaQueryWrapper<User>()
+                .eq(User::getUserName,user.getUserName())));
                 log.info("注册成功");
             }
         }catch (Exception e){

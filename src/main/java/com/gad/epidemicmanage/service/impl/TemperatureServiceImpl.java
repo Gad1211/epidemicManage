@@ -63,7 +63,6 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
             log.info("体温异常，已更新states");
         }
     }
-
     @Override
     public IPage<Temperature> queryTemperature(TemperatureDto temperatureDto) {
         LambdaQueryWrapper<Temperature> queryWrapper = new LambdaQueryWrapper<>();
