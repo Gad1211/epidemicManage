@@ -35,11 +35,16 @@ public class HealthController {
      * 体温填报
      */
     @PostMapping("/insertTemperature")
-    public Result insertTemperature(Integer userId,Float temperatureNum){
+    public Result insertTemperature(Integer userId,Float temperature){
         log.info("开始填报体温数据");
         Result result = new Result(true, "体温数据填报成功");
         try{
-            temperatureService.insertTemperature(userId,temperatureNum);
+            if(temperature <= 0 || temperature >= 45){
+                log.info("体温数据非法，请检查填入的体温");
+                result.setMessage("体温数据非法，请检查填入的体温");
+                return result;
+            }
+            temperatureService.insertTemperature(userId,temperature);
             log.info("体温数据填报成功");
         }catch (Exception e){
             log.error("体温数据填报失败："+e);
@@ -126,4 +131,5 @@ public class HealthController {
         }
         return result;
     }
+
 }

@@ -43,6 +43,12 @@ public class UserBaseInfoController {
         log.info("新增用户基本信息开始");
         Result result = new Result(true, "新增用户基本信息成功");
         try{
+            //校验
+            if(userBaseInfoDto.getUserId() == null || "".equals(userBaseInfoDto.getName()) || "".equals(userBaseInfoDto.getPhone())){
+                result.setMessage("注册失败，请检查输入");
+                return result;
+            }
+
             //保存基本信息
             userBaseInfoService.insertUserBaseInfo(userBaseInfoDto);
 
@@ -51,7 +57,7 @@ public class UserBaseInfoController {
                 log.info("该用户身体异常");
             }else if (userBaseInfoDto.getHighRisk() == STATE_TRUE){
                 statesService.updateCondition(userBaseInfoDto.getUserId(),STATE_FALSE,STATE_TRUE);
-                statesService.updateHomeQuarantineDay(userBaseInfoDto.getUserId(),3);
+                statesService.updateHomeQuarantineDay(userBaseInfoDto.getUserId(),14);
                 JobDataMap map = new JobDataMap();
                 map.put("userId", userBaseInfoDto.getUserId());
                 //添加计数隔离天数定时任务
@@ -100,6 +106,12 @@ public class UserBaseInfoController {
         log.info("修改用户基础信息开始");
         Result result = new Result(true, "修改用户基础信息成功");
         try{
+            //校验
+            if(userBaseInfo.getUserId() == null || "".equals(userBaseInfo.getName()) || "".equals(userBaseInfo.getPhone())){
+                result.setMessage("修改失败，请检查输入");
+                return result;
+            }
+
             userBaseInfoService.updateUserBaseInfo(userBaseInfo);
             log.info("修改用户基础信息成功");
         }catch (Exception e){

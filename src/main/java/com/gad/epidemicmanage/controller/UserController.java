@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
+import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IRoleService;
@@ -39,18 +40,20 @@ public class UserController {
      * 账户注册
      */
     @PostMapping("/register")
-    public Result accountRegister(@RequestBody User user){
+    public Result accountRegister(@RequestBody UserRigisterDto userRigisterDto){
         log.info("开始注册");
         Result result = new Result(true, "注册成功");
         try{
-            int flag = userService.insertUser(user);
+            int flag = userService.insertUser(userRigisterDto);
 
             //根据返回值判断是否重名,重名未注册成功
             if(flag == GlobalConstant.STATE_FALSE){
                 result.setMessage("注册失败，用户名已被使用");
+            } else if(flag == 2){
+                result.setMessage("注册失败，两次输入密码不一致");
             }else{
                 result.setData(userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUserName,user.getUserName())));
+                .eq(User::getUserName,userRigisterDto.getUserName())));
                 log.info("注册成功");
             }
         }catch (Exception e){

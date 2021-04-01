@@ -4,6 +4,7 @@ import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.pojo.vo.UserVo;
+import com.gad.epidemicmanage.service.IStatesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +32,8 @@ public class LoginController {
 
     final private AuthenticationManager authenticationManager;
 
+    final private IStatesService statesService;
+
     /**
      * 登录操作
      */
@@ -48,6 +51,7 @@ public class LoginController {
 
                 UserVo userVo = new UserVo();
                 userVo.setUserName(authentication.getName());
+                userVo.setStates(statesService.queryStates(user.getUserName()));
                 userVo.setAuthorities(authentication.getAuthorities());
                 result.setData(userVo);
             }catch (BadCredentialsException e){

@@ -3,6 +3,7 @@ package com.gad.epidemicmanage.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
+import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.User;
 
 public interface IUserService extends IService<User> {
@@ -10,7 +11,7 @@ public interface IUserService extends IService<User> {
     /**
      * 注册用户
      */
-    int insertUser(User user);
+    int insertUser(UserRigisterDto userRigisterDto);
 
     /**
      * 分页查询所有用户

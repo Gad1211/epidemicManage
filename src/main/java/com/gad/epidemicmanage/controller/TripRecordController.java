@@ -1,5 +1,6 @@
 package com.gad.epidemicmanage.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.CommonUtil;
@@ -7,9 +8,11 @@ import com.gad.epidemicmanage.pojo.dto.OutRecordDto;
 import com.gad.epidemicmanage.pojo.dto.RouteDto;
 import com.gad.epidemicmanage.pojo.entity.OutRecord;
 import com.gad.epidemicmanage.pojo.entity.Route;
+import com.gad.epidemicmanage.pojo.entity.States;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IOutRecordService;
 import com.gad.epidemicmanage.service.IRouteService;
+import com.gad.epidemicmanage.service.IStatesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +34,9 @@ public class TripRecordController {
     @Resource
     IOutRecordService outRecordService;
 
+    @Resource
+    IStatesService statesService;
+
     /**
      * 新增外出记录申请
      */
@@ -39,6 +45,10 @@ public class TripRecordController {
         log.info("开始新增外出记录申请");
         Result result = new Result(true, "新增外出记录申请成功");
         try {
+            if(outRecord.getUserId() == null || "".equals(outRecord.getOutStartTime())){
+                result.setMessage("新增失败，请检查输入");
+                return result;
+            }
             //flag= 1允许外出，0不允许
             Integer flag = outRecordService.insertOutRecord(outRecord);
             if (flag == GlobalConstant.STATE_TRUE) {
@@ -101,6 +111,13 @@ public class TripRecordController {
         log.info("开始新增行程记录");
         Result result = new Result(true, "新增行程记录成功");
         try {
+            if("".equals(route.getStartPlace()) || "".equals(route.getEndPlace()) ||
+                    "".equals(route.getStartTime()) || "".equals(route.getEndTime()) ||
+                    "".equals(route.getVehicle()) || "".equals(route.getVehicleSeatNumber())){
+                result.setMessage("新增行程记录失败，请检查输入");
+                return result;
+            }
+
             routeService.insertRoute(route);
             log.info("新增行程记录成功");
         } catch (Exception e) {
@@ -160,5 +177,24 @@ public class TripRecordController {
         } catch (Exception e) {
             log.error("导出导出行程Excel异常", e);
         }
+    }
+
+    /**
+     * 查询剩余隔离天数
+     */
+    @GetMapping(value = "/homeQuarantineDay/{userId}")
+    public Result homeQuarantineDay(@PathVariable Integer userId){
+        log.info("开始查询隔离天数");
+        Result result = new Result(true, "查询隔离天数成功");
+        try {
+            States states = statesService.getOne(new LambdaQueryWrapper<States>().eq(States::getUserId,userId));
+            log.info("查询隔离天数成功");
+            result.setData(states.getHomeQuarantineDay());
+        } catch (Exception e) {
+            log.error("查询隔离天数失败：" + e);
+            result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
+            result.setMessage("查询隔离天数失败");
+        }
+        return result;
     }
 }

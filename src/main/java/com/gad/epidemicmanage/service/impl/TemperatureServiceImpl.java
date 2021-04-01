@@ -40,7 +40,6 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         //先删除今日原来的
         remove(new LambdaQueryWrapper<Temperature>().eq(Temperature::getDate,date));
 
-
         //保存新的
         Temperature temperature = new Temperature();
         temperature.setUserId(userId);

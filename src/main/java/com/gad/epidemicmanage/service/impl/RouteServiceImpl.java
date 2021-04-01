@@ -68,7 +68,7 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
 
     @Override
     public void exportRouteExcel(HttpServletResponse response) throws Exception{
-        //获取所有通信录信息
+        //获取所有行程记录信息
         List<Route> list = list();
 
         HSSFWorkbook book = new HSSFWorkbook();

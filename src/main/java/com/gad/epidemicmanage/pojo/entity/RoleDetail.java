@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * 重写构造
- *
+ * Security框架 Detail类 必须实现GrantedAuthority 并重写构造方法
  */
 @Data
 public class RoleDetail implements GrantedAuthority {

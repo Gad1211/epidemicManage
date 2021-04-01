@@ -26,4 +26,9 @@ public interface IStatesService extends IService<States> {
      * 修改居家隔离天数
      */
     void updateHomeQuarantineDay(Integer userId,Integer dayNum);
+
+    /**
+     * 查询状态
+     */
+    String queryStates(String userName);
 }

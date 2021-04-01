@@ -8,6 +8,7 @@ import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.BCryptPasswordEncoderUtils;
 import com.gad.epidemicmanage.mapper.UserMapper;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
+import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.Role;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.pojo.entity.UserBaseInfo;
@@ -32,18 +33,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     IRoleService roleService;
 
     @Override
-    public int insertUser(User user){
+    public int insertUser(UserRigisterDto userRigisterDto){
+        //校验两次输入密码是否一致
+        if(!userRigisterDto.getUserAgainPasaword().equals(userRigisterDto.getUserPassword())){
+            log.info("两次输入密码不一致！");
+            return 2;
+        }
+
         //查询所有用户，避免用户名重复
         List<User> users = list();
         for(User curUser:users){
-            if(curUser.getUserName().equals(user.getUserName())){
+            if(curUser.getUserName().equals(userRigisterDto.getUserName())){
                 log.info("该用户名已被使用");
                 return GlobalConstant.STATE_FALSE;
             }
         }
 
+        User user = new User();
+        user.setUserName(userRigisterDto.getUserName());
         //加密密码存入数据库，不然无法存入
-        user.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(user.getUserPassword()));
+        user.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(userRigisterDto.getUserPassword()));
         save(user);
         log.info("注册成功，开始保存角色信息");
 
