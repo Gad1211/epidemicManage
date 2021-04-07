@@ -39,7 +39,7 @@ public class HealthController {
         log.info("开始填报体温数据");
         Result result = new Result(true, "体温数据填报成功");
         try{
-            if(temperature <= 0 || temperature >= 45){
+            if(temperature <= 35 || temperature >= 45){
                 log.info("体温数据非法，请检查填入的体温");
                 result.setMessage("体温数据非法，请检查填入的体温");
                 return result;

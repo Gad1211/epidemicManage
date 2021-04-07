@@ -103,7 +103,7 @@ public class UserController {
     }
 
     /**
-     * 删除用户,该操作会同时删除用户的详细信息和角色
+     * 删除用户,该操作会同时删除用户的详细信息和角色还有状态信息
      */
     @Transactional
     @PostMapping("/deleteUser/{userId}")

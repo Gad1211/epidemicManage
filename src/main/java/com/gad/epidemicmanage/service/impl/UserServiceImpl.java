@@ -10,9 +10,11 @@ import com.gad.epidemicmanage.mapper.UserMapper;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
 import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.Role;
+import com.gad.epidemicmanage.pojo.entity.States;
 import com.gad.epidemicmanage.pojo.entity.User;
 import com.gad.epidemicmanage.pojo.entity.UserBaseInfo;
 import com.gad.epidemicmanage.service.IRoleService;
+import com.gad.epidemicmanage.service.IStatesService;
 import com.gad.epidemicmanage.service.IUserBaseInfoService;
 import com.gad.epidemicmanage.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     IUserBaseInfoService userBaseInfoService;
     @Resource
     IRoleService roleService;
+    @Resource
+    IStatesService statesService;
 
     @Override
     public int insertUser(UserRigisterDto userRigisterDto){
@@ -105,5 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         roleService.remove(new LambdaQueryWrapper<Role>()
                 .eq(Role::getUserId, userId));
         log.info("删除用户角色信息成功");
+        //删除状态信息
+        statesService.remove(new LambdaQueryWrapper<States>()
+                .eq(States::getUserId,userId));
+        log.info("删除用户states表成功");
     }
 }

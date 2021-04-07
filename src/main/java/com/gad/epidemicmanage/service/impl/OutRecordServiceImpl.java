@@ -56,11 +56,15 @@ public class OutRecordServiceImpl extends ServiceImpl<OutRecordMapper, OutRecord
         if(outRecordDto.getUserId() != null){
             queryWrapper.eq(OutRecord::getUserId,outRecordDto.getUserId());
         }
+        //用户名称匹配
+        if(!outRecordDto.getUserName().isEmpty()){
+            queryWrapper.eq(OutRecord::getUserName,outRecordDto.getUserName());
+        }
         //有日期则匹配日期
         if(!outRecordDto.getOutStartTime().isEmpty() && !outRecordDto.getOutBackTime().isEmpty()){
             //le 小于等于  gt  大于
-            queryWrapper.le(OutRecord::getOutStartTime, outRecordDto.getOutBackTime() + " 23:59:59");
-            queryWrapper.gt(OutRecord::getOutBackTime, outRecordDto.getOutStartTime() + " 00:00:00");
+            queryWrapper.ge(OutRecord::getOutStartTime, outRecordDto.getOutStartTime() + " 00:00:00");
+            queryWrapper.le(OutRecord::getOutBackTime, outRecordDto.getOutBackTime() + " 23:59:59");
         }
         //日期降序
         queryWrapper.orderByDesc(OutRecord::getOutStartTime);

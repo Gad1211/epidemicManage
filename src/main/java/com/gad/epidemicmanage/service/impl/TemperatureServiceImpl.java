@@ -71,6 +71,10 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         //匹配指定用户体温记录
             queryWrapper.eq(Temperature::getUserId,temperatureDto.getUserId());
         }
+        if(!temperatureDto.getUserName().isEmpty()){
+            //用户名匹配
+            queryWrapper.eq(Temperature::getUserName,temperatureDto.getUserName());
+        }
         //若日期不为空则查询指定日期
         if(!temperatureDto.getDate().isEmpty()){
             queryWrapper.eq(Temperature::getDate, CommonUtil.dateFormate(temperatureDto.getDate()));

@@ -58,8 +58,8 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
         //有日期则匹配日期
         if(!routeDto.getStartTime().isEmpty() && !routeDto.getEndTime().isEmpty()){
             //le 小于等于  gt  大于
-            queryWrapper.le(Route::getStartTime, routeDto.getEndTime() + " 23:59:59");
-            queryWrapper.gt(Route::getEndTime, routeDto.getStartTime() + " 00:00:00");
+            queryWrapper.ge(Route::getStartTime, routeDto.getStartTime() + " 00:00:00");
+            queryWrapper.le(Route::getEndTime, routeDto.getEndTime() + " 23:59:59");
         }
         //日期降序
         queryWrapper.orderByDesc(Route::getStartTime);

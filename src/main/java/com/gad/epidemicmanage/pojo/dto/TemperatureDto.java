@@ -6,9 +6,14 @@ import lombok.Data;
 public class TemperatureDto {
 
     /**
-     * 用户id 必填
+     * 用户id
      */
     private Integer userId;
+
+    /**
+     * 用户名称
+     */
+    private String userName;
 
     /**
      * 日期 非必填

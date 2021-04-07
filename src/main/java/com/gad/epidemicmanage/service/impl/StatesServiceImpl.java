@@ -53,8 +53,11 @@ public class StatesServiceImpl extends ServiceImpl<StatesMapper, States> impleme
 
     @Override
     public String queryStates(String userName) {
+        if("admin".equals(userName)){
+            return "管理员";
+        }
         Integer id = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUserName,userName)).getId();
-        States states = getById(id);
+        States states = getOne(new LambdaQueryWrapper<States>().eq(States::getUserId,id));
 
         if(states.getHighRisk() == STATE_TRUE && states.getAbnormal() == STATE_FALSE){
             return "高风险地区返回";
