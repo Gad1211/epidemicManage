@@ -33,7 +33,7 @@ public class UserBaseInfoServiceImpl extends ServiceImpl<UserBaseInfoMapper, Use
         userBaseInfo.setAge(userBaseInfoDto.getAge());
         userBaseInfo.setPhone(userBaseInfoDto.getPhone());
         save(userBaseInfo);
-        log.info("保存基础信息完成，开始保存condition信息");
+        log.info("保存基础信息完成，开始保存states信息");
 
         //插入states表
         statesService.insertCondition(userBaseInfoDto.getUserId(),GlobalConstant.STATE_FALSE,GlobalConstant.STATE_FALSE,0);

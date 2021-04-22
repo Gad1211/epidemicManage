@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.CommonUtil;
+import com.gad.epidemicmanage.pojo.dto.BadStatesDto;
 import com.gad.epidemicmanage.pojo.dto.TemperatureDto;
 import com.gad.epidemicmanage.pojo.entity.States;
 import com.gad.epidemicmanage.pojo.entity.Temperature;
@@ -92,44 +93,37 @@ public class HealthController {
     }
 
     /**
-     * 查询异常体温
+     * 查询当前用户状态
      */
-    @GetMapping("/queryAbnormalTemperature")
-    public Result queryAbnormalInfo(){
-        log.info("查询异常体温开始");
-        Result result = new Result(true, "查询异常体温成功");
+    @GetMapping("/getUserStates/{id}")
+    public Result getUserStates(@PathVariable Integer id){
+        log.info("查询当前用户状态开始");
+        Result result = new Result(true, "查询当前用户状态成功");
         try{
-            List<States> res = statesService.list(new LambdaQueryWrapper<States>()
-                    .eq(States::getAbnormal,GlobalConstant.STATE_TRUE));
-            result.setData(res);
-            log.info("查询异常体温成功");
+            result.setData(statesService.queryStates(id));
         }catch (Exception e){
-            log.error("查询异常体温失败："+e);
+            log.error("查询当前用户状态失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("查询异常体温失败");
+            result.setMessage("查询当前用户状态失败");
         }
         return result;
     }
 
     /**
-     * 查询高风险地区
+     * 查询异常状态用户
      */
-    @GetMapping("/queryHighRiskArea")
-    public Result queryHighRiskArea(){
-        log.info("查询高风险地区开始");
-        Result result = new Result(true, "查询高风险地区成功");
+    @PostMapping("/getBadStates")
+    public Result getBadStates(@RequestBody BadStatesDto badStatesDto){
+        log.info("查询异常状态用户列表开始");
+        Result result = new Result(true, "查询异常状态用户列表成功");
         try{
-            List<States> res = statesService.list(new LambdaQueryWrapper<States>()
-                    .eq(States::getHighRisk,GlobalConstant.STATE_TRUE));
-
-            result.setData(res);
-            log.info("查询高风险地区成功");
+            IPage<States> page = statesService.getBadStates(badStatesDto);
+            result.setData(page);
         }catch (Exception e){
-            log.error("查询高风险地区失败："+e);
+            log.error("查询异常状态用户列表失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("查询高风险地区失败");
+            result.setMessage("查询异常状态用户列表失败");
         }
         return result;
     }
-
 }

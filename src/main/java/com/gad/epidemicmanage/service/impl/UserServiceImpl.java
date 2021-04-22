@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gad.epidemicmanage.common.GlobalConstant;
 import com.gad.epidemicmanage.common.utils.BCryptPasswordEncoderUtils;
 import com.gad.epidemicmanage.mapper.UserMapper;
+import com.gad.epidemicmanage.pojo.dto.UpdatePasswdDto;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
 import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.Role;
@@ -19,8 +20,7 @@ import com.gad.epidemicmanage.service.IUserBaseInfoService;
 import com.gad.epidemicmanage.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,6 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     IRoleService roleService;
     @Resource
     IStatesService statesService;
+
 
     @Override
     public int insertUser(UserRigisterDto userRigisterDto){
@@ -85,15 +86,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public void updateUser(User user) {
+    public Integer updateUser(UpdatePasswdDto updatePasswdDto) {
         //获取原本用户
-        User userNew = getById(user.getId());
-        //更新
-        userNew.setUserName(user.getUserName());
-        //加密密码
-        userNew.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(user.getUserPassword()));
+        User userNew = getById(updatePasswdDto.getUserId());
+
+        //校验原密码
+        if(!BCryptPasswordEncoderUtils.passWordMatch(updatePasswdDto.getOldPassword(),userNew.getUserPassword())){
+            log.info("原密码错误，修改密码失败");
+            return GlobalConstant.STATE_FALSE;
+        }
+
+        //校验再次输入
+        if(!updatePasswdDto.getNewPassword().equals(updatePasswdDto.getNewRePssword())){
+            log.info("修改密码，两次密码不一致");
+            return 2;
+        }
+
+        //更新密码先加密密码
+        userNew.setUserPassword(BCryptPasswordEncoderUtils.encodePassword(updatePasswdDto.getNewPassword()));
         //更新到数据库
         updateById(userNew);
+
+        log.info("修改密码成功");
+        return GlobalConstant.STATE_TRUE;
     }
 
     @Override

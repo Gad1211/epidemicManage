@@ -2,6 +2,7 @@ package com.gad.epidemicmanage.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gad.epidemicmanage.pojo.dto.UpdatePasswdDto;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
 import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.User;
@@ -19,9 +20,9 @@ public interface IUserService extends IService<User> {
     IPage<User> queryUsers(UserListDto userListDto);
 
     /**
-     * 修改用户信息
+     * 修改用户密码
      */
-    void updateUser(User user);
+    Integer updateUser(UpdatePasswdDto updatePasswdDto);
 
     /**
      * 删除用户信息

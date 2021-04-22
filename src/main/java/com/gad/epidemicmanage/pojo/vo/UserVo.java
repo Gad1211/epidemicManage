@@ -10,7 +10,5 @@ import java.util.Set;
 public class UserVo {
     private String userName;
 
-    private String states;
-
     private Collection<? extends GrantedAuthority> authorities;
 }

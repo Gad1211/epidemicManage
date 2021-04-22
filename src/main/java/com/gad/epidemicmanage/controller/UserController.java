@@ -3,6 +3,7 @@ package com.gad.epidemicmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.gad.epidemicmanage.common.GlobalConstant;
+import com.gad.epidemicmanage.pojo.dto.UpdatePasswdDto;
 import com.gad.epidemicmanage.pojo.dto.UserListDto;
 import com.gad.epidemicmanage.pojo.dto.UserRigisterDto;
 import com.gad.epidemicmanage.pojo.entity.User;
@@ -85,19 +86,27 @@ public class UserController {
     }
 
     /**
-     * 修改用户账号信息
+     * 修改用户密码
      */
     @PostMapping("/updateUser")
-    public Result updateUser(@RequestBody User user){
-        log.info("修改用户信息开始");
-        Result result = new Result(true, "修改用户信息成功");
+    public Result updateUser(@RequestBody UpdatePasswdDto updatePasswdDto){
+        log.info("修改用户密码开始");
+        Result result = new Result(true, "修改用户密码成功");
         try{
-            userService.updateUser(user);
-            log.info("修改用户信息成功");
+            Integer flag = userService.updateUser(updatePasswdDto);
+            if(flag == GlobalConstant.STATE_FALSE){
+                result.setMessage("原密码错误，请检查输入");
+                return result;
+            }
+            if(flag == 2){
+                result.setMessage("两次密码不一致，请检查输入");
+                return result;
+            }
+            log.info("修改用户密码成功");
         }catch (Exception e){
-            log.error("修改用户信息失败："+e);
+            log.error("修改用户密码失败："+e);
             result.setCode(GlobalConstant.REQUEST_ERROR_STATUS_CODE);
-            result.setMessage("修改用户信息失败");
+            result.setMessage("修改用户密码失败");
         }
         return result;
     }

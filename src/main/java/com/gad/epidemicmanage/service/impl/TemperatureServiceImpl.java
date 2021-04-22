@@ -37,8 +37,11 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
     @Override
     public void insertTemperature(Integer userId, Float temperatureNum){
         String date = CommonUtil.todayDate();
+        LambdaQueryWrapper<Temperature> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Temperature::getDate,date);
+        queryWrapper.eq(Temperature::getUserId,userId);
         //先删除今日原来的
-        remove(new LambdaQueryWrapper<Temperature>().eq(Temperature::getDate,date));
+        remove(queryWrapper);
 
         //保存新的
         Temperature temperature = new Temperature();
@@ -50,7 +53,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         save(temperature);
         //更新states表身体异常 37.5
         if(temperatureNum > GlobalConstant.ABNORMAL_TEMPERATURE){
-            statesService.updateCondition(userId, GlobalConstant.STATE_TRUE,GlobalConstant.STATE_FALSE);
+            statesService.updateTempCondition(userId, GlobalConstant.STATE_TRUE);
 
             //添加单次任务，异步发送邮件
             JobDataMap jobDataMap = new JobDataMap();
@@ -60,6 +63,8 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
                     "default", jobDataMap);
 
             log.info("体温异常，已更新states");
+        }else{
+            statesService.updateTempCondition(userId, GlobalConstant.STATE_FALSE);
         }
     }
     @Override

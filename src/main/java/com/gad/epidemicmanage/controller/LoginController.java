@@ -51,7 +51,6 @@ public class LoginController {
 
                 UserVo userVo = new UserVo();
                 userVo.setUserName(authentication.getName());
-                userVo.setStates(statesService.queryStates(user.getUserName()));
                 userVo.setAuthorities(authentication.getAuthorities());
                 result.setData(userVo);
             }catch (BadCredentialsException e){
