@@ -1,6 +1,7 @@
 package com.gad.epidemicmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.gad.epidemicmanage.common.utils.CommonUtil;
 import com.gad.epidemicmanage.pojo.entity.RealTimeData;
 import com.gad.epidemicmanage.pojo.vo.Result;
 import com.gad.epidemicmanage.service.IRealTimeDataService;
@@ -28,6 +29,11 @@ public class RealTimeDataController {
         try{
             RealTimeData realTimeData = realTimeDataService.getOne(new LambdaQueryWrapper<RealTimeData>()
                     .eq(RealTimeData::getDate,date));
+            //没获取到则返回前一天的数据
+            if(realTimeData == null){
+                realTimeData = realTimeDataService.getOne(new LambdaQueryWrapper<RealTimeData>()
+                        .eq(RealTimeData::getDate, CommonUtil.getOneDayBefore(date)));
+            }
             result.setData(realTimeData);
             log.info("返回当天疫情数据成功");
         }catch (Exception e){

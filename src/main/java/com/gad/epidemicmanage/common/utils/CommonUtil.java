@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -63,5 +64,35 @@ public class CommonUtil {
             log.error("含有逗号的字符串转数字异常，请检查入参");
         }
         return res;
+    }
+
+    /**
+     * 获取一天前的日期
+     * @param today
+     * @return
+     */
+    public static String getOneDayBefore(String today){
+        Calendar c = Calendar.getInstance();
+
+        Date date=null;
+
+        try {
+            date = new SimpleDateFormat("yy-MM-dd").parse(today);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+
+        c.setTime(date);
+
+        int day=c.get(Calendar.DATE);
+
+        c.set(Calendar.DATE,day-1);
+
+        String dayBefore=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+
+        return dayBefore;
+
     }
 }

@@ -42,7 +42,6 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         queryWrapper.eq(Temperature::getUserId,userId);
         //先删除今日原来的
         remove(queryWrapper);
-
         //保存新的
         Temperature temperature = new Temperature();
         temperature.setUserId(userId);

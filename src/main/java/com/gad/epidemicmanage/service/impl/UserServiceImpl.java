@@ -44,7 +44,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             log.info("两次输入密码不一致！");
             return 2;
         }
-
         //查询所有用户，避免用户名重复
         List<User> users = list();
         for(User curUser:users){
@@ -53,7 +52,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 return GlobalConstant.STATE_FALSE;
             }
         }
-
         User user = new User();
         user.setUserName(userRigisterDto.getUserName());
         //加密密码存入数据库，不然无法存入
