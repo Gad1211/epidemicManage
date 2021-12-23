@@ -63,7 +63,7 @@ public class GlobalConstant {
     /**
      * 邮件授权码
      */
-    public static final String MAIL_KEY = "jnaqntxxercxebad";
+    public static final String MAIL_KEY = "";
 
     /**
      * 体温异常状态阈值
